@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f5f0">
+  <meta name="description" content="서경대학교 스포츠&테크놀로지학과 장도경의 개인 포트폴리오. 요가, 스포츠 재활, 운동과 데이터에 대한 관심과 경험을 소개합니다.">
+  <title>장도경 | Sports & Technology Portfolio</title>
+  <style>
+    :root {
+      --paper: #f7f5f0;
+      --white: #fffefa;
+      --ink: #202923;
+      --muted: #69736c;
+      --green: #426b58;
+      --green-dark: #2e4d3f;
+      --sage: #dce6dc;
+      --peach: #f1d7c6;
+      --line: #dfe3dc;
+      --shadow: 0 18px 50px rgba(36, 52, 42, .08);
+      --radius: 24px;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(247,245,240,.88); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(223,227,220,.8);
+    }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font-size: 1rem; font-weight: 850; letter-spacing: -.04em; white-space: nowrap; }
+    .brand span { color: var(--green); }
+    .navlinks { display: flex; align-items: center; gap: 22px; color: var(--muted); font-size: .84rem; }
+    .navlinks a { transition: color .2s; }
+    .navlinks a:hover { color: var(--green-dark); }
+    .menu-btn { display: none; border: 1px solid var(--line); border-radius: 99px; padding: 8px 13px; background: var(--white); color: var(--ink); }
+    .hero { padding: 86px 0 76px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 54px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .eyebrow:before { content: ""; width: 28px; height: 1px; background: currentColor; }
+    h1 { margin: 18px 0 12px; font-size: clamp(3rem, 7vw, 5.6rem); line-height: 1.05; letter-spacing: -.075em; font-weight: 850; }
+    h1 .dot { color: var(--green); }
+    .hero-sub { margin: 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.2rem); }
+    .hero-quote { margin: 30px 0 24px; max-width: 580px; font-size: clamp(1.25rem, 2.6vw, 1.85rem); font-weight: 750; line-height: 1.55; letter-spacing: -.04em; }
+    .hero-quote em { color: var(--green); font-style: normal; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .chip { display: inline-flex; border: 1px solid #d5ddd4; background: rgba(255,254,250,.65); color: #4b5f51; border-radius: 99px; padding: 7px 13px; font-size: .8rem; font-weight: 650; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; border: 1px solid var(--green); border-radius: 99px; padding: 12px 19px; font-size: .9rem; font-weight: 750; transition: transform .2s, background .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary { background: var(--green); color: white; }
+    .btn.secondary { color: var(--green-dark); background: transparent; }
+    .portrait-wrap { position: relative; min-height: 420px; display: grid; place-items: center; }
+    .portrait-orbit { position: absolute; width: min(390px, 100%); aspect-ratio: 1; border-radius: 50%; background: var(--sage); }
+    .portrait-orbit:before, .portrait-orbit:after { content: ""; position: absolute; border: 1px solid rgba(66,107,88,.22); border-radius: 50%; inset: 22px; }
+    .portrait-orbit:after { inset: -18px; border-style: dashed; }
+    .portrait-card { position: relative; z-index: 1; width: min(310px, 82%); aspect-ratio: 4 / 5; border-radius: 46% 46% 28px 28px; overflow: hidden; display: flex; align-items: end; justify-content: center; background: linear-gradient(155deg, #f1d7c6 0%, #f5e8dc 42%, #b8cdbd 100%); box-shadow: var(--shadow); }
+    .portrait-card img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; display: none; }
+    .portrait-card.has-image img { display: block; }
+    .portrait-card.has-image .portrait-placeholder { display: none; }
+    .portrait-placeholder { position: relative; text-align: center; padding: 25px; color: #405c4b; }
+    .portrait-placeholder .sun { width: 94px; height: 94px; margin: 0 auto 20px; border-radius: 50%; background: rgba(255,254,250,.68); display: grid; place-items: center; font-size: 2.5rem; }
+    .portrait-placeholder strong { display: block; font-size: 1.05rem; }
+    .portrait-placeholder small { display: block; margin-top: 5px; opacity: .8; font-size: .76rem; }
+    .floating-note { position: absolute; z-index: 2; background: var(--white); border: 1px solid rgba(223,227,220,.8); box-shadow: var(--shadow); border-radius: 16px; padding: 12px 16px; font-size: .8rem; font-weight: 750; }
+    .floating-note.one { top: 42px; left: 0; transform: rotate(-5deg); }
+    .floating-note.two { right: -2px; bottom: 45px; transform: rotate(4deg); }
+    .floating-note span { color: var(--green); }
+    section { padding: 84px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 34px; }
+    .section-kicker { color: var(--green); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 850; }
+    h2 { margin: 7px 0 0; font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.2; letter-spacing: -.06em; }
+    .section-intro { max-width: 470px; color: var(--muted); font-size: .95rem; margin: 0; }
+    .about-section { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 26px; align-items: stretch; }
+    .character-panel { min-height: 440px; border-radius: var(--radius); overflow: hidden; position: relative; display: flex; align-items: end; padding: 28px; background: linear-gradient(145deg, rgba(35,53,42,.06), rgba(35,53,42,.65)), radial-gradient(circle at 28% 22%, #f3d8c4 0 12%, transparent 12.5%), linear-gradient(135deg, #dce6dc, #b9cdbd 55%, #e9c9b2); background-size: cover; background-position: center; }
+    .character-panel:before { content: "🙂"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -58%); font-size: 7rem; filter: drop-shadow(0 12px 15px rgba(0,0,0,.1)); }
+    .character-panel .about-portrait { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+    .character-panel.has-portrait:before { content: none; }
+    .character-panel .panel-caption { position: absolute; top: 24px; right: 24px; z-index: 1; color: white; text-align: right; text-shadow: 0 2px 8px rgba(0,0,0,.45); }
+    .panel-caption small { opacity: .85; letter-spacing: .1em; text-transform: uppercase; }
+    .panel-caption h3 { margin: 4px 0 0; font-size: 2rem; letter-spacing: -.06em; }
+    .about-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(24px, 4vw, 48px); background: var(--paper); border-radius: var(--radius); }
+    .about-copy p { margin: 0 0 16px; color: #4d5850; }
+    .about-copy p:last-child { margin-bottom: 0; }
+    .pullquote { padding-left: 18px; border-left: 3px solid var(--green); color: var(--green-dark) !important; font-weight: 800; }
+    .interest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .interest-card { padding: 25px; border: 1px solid var(--line); border-radius: 20px; background: var(--white); min-height: 205px; }
+    .interest-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; background: var(--sage); color: var(--green-dark); font-size: 1.25rem; margin-bottom: 18px; }
+    .interest-card h3 { margin: 0 0 7px; font-size: 1.1rem; letter-spacing: -.035em; }
+    .interest-card p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .focus-block { margin-top: 22px; border-radius: var(--radius); background: var(--green-dark); color: white; padding: clamp(25px, 4vw, 42px); display: grid; grid-template-columns: .7fr 1.3fr; gap: 28px; align-items: start; }
+    .focus-block h3 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -.05em; line-height: 1.35; }
+    .focus-block p { margin: 0 0 13px; color: rgba(255,255,255,.8); font-size: .93rem; }
+    .focus-block p:last-child { margin-bottom: 0; }
+    .data-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .data-pills span { padding: 6px 11px; border: 1px solid rgba(255,255,255,.3); border-radius: 99px; font-size: .78rem; }
+    .experience-section { background: #eeefe8; }
+    .timeline { display: grid; gap: 18px; }
+    .experience-card { display: grid; grid-template-columns: 240px 1fr; background: var(--white); border-radius: 22px; overflow: hidden; border: 1px solid rgba(223,227,220,.8); }
+    .experience-side { background: var(--sage); padding: 28px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+    .experience-number { font-size: .78rem; font-weight: 850; color: var(--green); letter-spacing: .12em; }
+    .experience-side h3 { margin: 8px 0; font-size: 1.35rem; line-height: 1.35; letter-spacing: -.05em; }
+    .experience-side p { margin: 0; color: #5c6c60; font-size: .82rem; }
+    .experience-body { padding: clamp(24px, 4vw, 36px); }
+    .experience-body h4 { margin: 0 0 9px; font-size: .95rem; color: var(--green-dark); }
+    .experience-body p { margin: 0 0 21px; color: #58635b; font-size: .91rem; }
+    .experience-body p:last-child { margin-bottom: 0; }
+    .lesson { padding-top: 17px; border-top: 1px solid var(--line); }
+    .credentials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .credential-card { border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(24px, 4vw, 36px); background: var(--white); }
+    .credential-card h3 { margin: 0 0 18px; font-size: 1.35rem; letter-spacing: -.045em; }
+    .cert-list { display: flex; flex-wrap: wrap; gap: 9px; padding: 0; margin: 0; list-style: none; }
+    .cert-list li { background: var(--paper); border: 1px solid var(--line); border-radius: 11px; padding: 8px 11px; font-size: .82rem; }
+    .stage-card { background: #f2e4d9; border: 0; }
+    .stage-card .stage-label { display: inline-block; background: rgba(255,255,255,.65); border-radius: 99px; padding: 6px 11px; font-size: .75rem; color: #775642; font-weight: 800; }
+    .stage-card h3 { margin-top: 18px; }
+    .stage-card p { color: #69564a; font-size: .9rem; }
+    .career-section { background: var(--white); }
+    .strength-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 18px; }
+    .strength-feature { border-radius: var(--radius); background: var(--green-dark); color: white; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; min-height: 300px; }
+    .strength-feature .big-number { color: #bdd2c0; font-size: .8rem; font-weight: 850; letter-spacing: .14em; }
+    .strength-feature h3 { margin: 28px 0 12px; font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.25; letter-spacing: -.055em; }
+    .strength-feature p { margin: 0; color: rgba(255,255,255,.75); font-size: .9rem; }
+    .strength-detail { padding: 30px; background: var(--paper); border-radius: var(--radius); }
+    .strength-detail h3 { margin: 0 0 12px; font-size: 1.25rem; }
+    .strength-detail p { margin: 0 0 14px; color: #59645c; font-size: .92rem; }
+    .strength-detail p:last-child { margin-bottom: 0; }
+    .career-list { display: grid; gap: 10px; margin-top: 18px; }
+    .career-item { display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 15px; padding: 15px 17px; border: 1px solid var(--line); border-radius: 15px; }
+    .career-rank { color: var(--green); font-size: .78rem; font-weight: 850; }
+    .career-item strong { display: block; font-size: .97rem; }
+    .career-item span:last-child { display: block; color: var(--muted); font-size: .83rem; }
+    .contact-section { padding: 76px 0; }
+    .contact-panel { border-radius: 28px; background: var(--sage); padding: clamp(28px, 5vw, 54px); display: grid; grid-template-columns: 1fr 1fr; gap: 35px; align-items: center; }
+    .contact-panel h2 { font-size: clamp(2rem, 4vw, 3rem); }
+    .contact-panel p { color: #56675a; max-width: 390px; }
+    .contact-links { display: grid; gap: 10px; }
+    .contact-link { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: rgba(255,254,250,.78); border: 1px solid rgba(66,107,88,.12); padding: 15px 17px; border-radius: 14px; font-size: .9rem; }
+    .contact-link small { display: block; color: var(--muted); font-size: .72rem; }
+    .contact-link strong { overflow-wrap: anywhere; }
+    .contact-link .arrow { color: var(--green); font-size: 1.2rem; }
+    footer { padding: 24px 0 34px; color: var(--muted); font-size: .78rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid var(--line); padding-top: 22px; }
+    .back-top { color: var(--green); font-weight: 800; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+    @media (max-width: 850px) {
+      .navlinks { gap: 13px; font-size: .78rem; }
+      .hero-grid { gap: 25px; }
+      .portrait-wrap { min-height: 340px; }
+      .about-grid { grid-template-columns: .8fr 1.2fr; }
+      .experience-card { grid-template-columns: 190px 1fr; }
+    }
+    @media (max-width: 680px) {
+      .wrap { width: min(var(--max), calc(100% - 30px)); }
+      .nav { min-height: 66px; flex-wrap: wrap; }
+      .menu-btn { display: inline-flex; }
+      .navlinks { display: none; width: 100%; padding: 0 0 16px; flex-wrap: wrap; gap: 10px 17px; }
+      .navlinks.open { display: flex; }
+      .hero { padding: 52px 0 50px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-copy { order: 1; }
+      .portrait-wrap { order: 0; min-height: 290px; margin-bottom: 4px; }
+      .portrait-orbit { width: 255px; }
+      .portrait-card { width: 205px; }
+      .floating-note.one { left: 5%; top: 17px; }
+      .floating-note.two { right: 3%; bottom: 25px; }
+      h1 { font-size: clamp(3.2rem, 16vw, 5rem); }
+      section { padding: 60px 0; }
+      .section-head { display: block; }
+      .section-intro { margin-top: 15px; }
+      .about-grid, .focus-block, .credentials-grid, .strength-grid, .contact-panel { grid-template-columns: 1fr; }
+      .character-panel { min-height: 330px; }
+      .interest-grid { grid-template-columns: 1fr; }
+      .interest-card { min-height: auto; }
+      .focus-block { gap: 18px; }
+      .experience-card { grid-template-columns: 1fr; }
+      .experience-side { padding: 22px 24px; }
+      .experience-side h3 { max-width: 450px; }
+      .experience-body { padding: 24px; }
+      .contact-panel { gap: 22px; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="장도경 포트폴리오 첫 화면">Do kyoung<span>.</span></a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks">메뉴 ☰</button>
+      <nav class="navlinks" id="navLinks" aria-label="주요 메뉴">
+        <a href="#about">About</a>
+        <a href="#interest">Interest</a>
+        <a href="#experience">Experience</a>
+        <a href="#credentials">Credentials</a>
+        <a href="#career">Career</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Sports &amp; Technology Portfolio</div>
+          <h1>장도경<span class="dot">.</span></h1>
+          <p class="hero-sub">서경대학교 스포츠&amp;테크놀로지학과 · 3학년</p>
+          <p class="hero-quote">저만의 <em>균형</em>을 찾아<br>나아가는 사람입니다.</p>
+          <p style="max-width:540px;color:var(--muted);margin:0">유연함과 섬세함을 바탕으로 움직임을 이해하고, 배운 것을 행동으로 옮기며 저만의 방향을 찾아갑니다.</p>
+          <div class="chips" aria-label="핵심 키워드">
+            <span class="chip">유연함</span><span class="chip">섬세함</span><span class="chip">실행력</span><span class="chip">책임감</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn primary" href="#about">저를 소개합니다 <span aria-hidden="true">↓</span></a>
+            <a class="btn secondary" href="#contact">연락하기 ↗</a>
+          </div>
+        </div>
+        <div class="portrait-wrap" aria-label="프로필 이미지 영역">
+          <div class="portrait-orbit"></div>
+          <div class="floating-note one">MOVE WITH <span>INTENTION</span></div>
+          <div class="portrait-card" id="portraitCard">
+            <img src="IMG_2944.jpg" alt="장도경 프로필 사진" onload="this.parentElement.classList.add('has-image')" onerror="this.style.display='none'">
+            <div class="portrait-placeholder">
+              <div class="sun">✳</div>
+              <strong>장도경의 포트폴리오</strong>
+              <small>프로필 사진을 추가할 수 있어요</small>
+            </div>
+          </div>
+          <div class="floating-note two">FIND YOUR <span>BALANCE</span> ✳</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section" id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="section-kicker">01 / About me</div><h2>밝음 속의 섬세함,<br>저를 닮은 짱구</h2></div>
+          <p class="section-intro">개성이 뚜렷하면서도 사람들과 자연스럽게 어울리고, 어려움 속에서도 유쾌하게 자신의 길을 찾아가는 모습이 저와 닮았습니다.</p>
+        </div>
+        <div class="about-grid">
+          <div class="character-panel has-portrait" id="characterPanel" role="img" aria-label="짱구의 밝고 유쾌한 모습">
+            <img class="about-portrait" src="IMG_9649.jpg" alt="밝고 유쾌한 짱구 이미지">
+            <div class="panel-caption"><small>A LITTLE ABOUT ME</small><h3>유쾌하지만 섬세하게</h3></div>
+          </div>
+          <div class="about-copy">
+            <p>저는 가끔 제 모습이 짱구와 닮았다고 생각합니다. 개성이 뚜렷하면서도 사람들과 자연스럽게 어울리고, 삶의 굴곡 속에서도 유쾌하게 자신의 길을 나아가는 모습이 저와 닮았기 때문입니다.</p>
+            <p>짱구는 겉으로는 고민이 없어 보이고 장난스럽지만, 속으로는 여리고 섬세한 면을 가진 캐릭터입니다. 저는 그런 상반된 모습에 매력을 느끼며, 제 자신과도 닮아 있다고 생각합니다.</p>
+            <p>저 역시 겉으로는 밝고 유쾌해 보이지만, 내면에는 여러 고민과 걱정을 안고 있을 때가 있습니다. 그럼에도 어려움에 머무르기보다 스스로 극복할 방법을 찾고, 행동으로 옮기며 앞으로 나아가려 노력합니다.</p>
+            <p class="pullquote">저에게 짱구는 밝은 모습 뒤의 섬세함과, 어려움 속에서도 자신만의 길을 찾아가는 태도를 보여주는 존재입니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="interest">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="section-kicker">02 / Interests</div><h2>움직임을 이해하고,<br>더 나은 방법을 찾다</h2></div>
+          <p class="section-intro">운동과 건강관리부터 스포츠 재활까지, 신체의 움직임을 이해하고 개인에게 적합한 방법을 찾는 데 관심이 있습니다.</p>
+        </div>
+        <div class="interest-grid">
+          <article class="interest-card reveal">
+            <div class="interest-icon" aria-hidden="true">↗</div>
+            <h3>선수 경기력 향상</h3>
+            <p>신체 기능과 움직임을 살펴 경기력 향상에 도움이 되는 요소를 알아보고 싶습니다.</p>
+          </article>
+          <article class="interest-card reveal">
+            <div class="interest-icon" aria-hidden="true">◌</div>
+            <h3>운동 및 건강관리</h3>
+            <p>개인의 체력과 신체적 특성에 맞는 운동과 적절한 운동 강도에 관심이 있습니다.</p>
+          </article>
+          <article class="interest-card reveal">
+            <div class="interest-icon" aria-hidden="true">＋</div>
+            <h3>스포츠 재활</h3>
+            <p>재활 상태를 객관적으로 평가하고 재부상 위험을 줄이는 방법을 탐색하고 싶습니다.</p>
+          </article>
+        </div>
+        <div class="focus-block reveal">
+          <div>
+            <div class="section-kicker" style="color:#bdd2c0">MY QUESTION</div>
+            <h3>모두에게 같은 운동이<br>가장 효과적일까요?</h3>
+          </div>
+          <div>
+            <p>같은 운동을 하더라도 개인의 체력과 신체적 특성에 따라 운동 효과는 달라질 수 있습니다. 그래서 모두에게 동일한 운동 프로그램을 적용하는 데에는 한계가 있다고 생각합니다.</p>
+            <p>심박수, 운동량, 반복 횟수, 움직임 등의 데이터를 수집하고 분석해 개인에게 적합한 운동과 운동 강도를 찾고 싶습니다.</p>
+            <div class="data-pills"><span>심박수</span><span>운동량</span><span>반복 횟수</span><span>움직임 데이터</span></div>
+          </div>
+        </div>
+        <div class="focus-block reveal" style="margin-top:16px;background:#e8d8ca;color:var(--ink)">
+          <div>
+            <div class="section-kicker" style="color:#8a6149">YOGA &amp; REHABILITATION</div>
+            <h3>유연함을 바탕으로<br>몸의 균형을 탐구하다</h3>
+          </div>
+          <div>
+            <p style="color:#5f5047">제가 특히 관심을 가지고 있는 운동은 요가입니다. 유연성을 바탕으로 몸을 부드럽게 늘리고, 신체의 움직임을 세밀하게 조절한다는 점에 매력을 느낍니다.</p>
+            <p style="color:#5f5047">스포츠 재활 분야에서는 단순히 부상 후 경과한 시간만으로 복귀 여부를 판단하기보다, 실제 신체 기능과 회복 상태를 기준으로 안전한 복귀 시점을 평가하는 방법을 알아보고 싶습니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience-section" id="experience">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="section-kicker">03 / Experience</div><h2>경험으로 배우고,<br>책임감으로 성장하다</h2></div>
+          <p class="section-intro">현장에서 문제를 해결하고, 동아리 활동에서 맡은 역할을 수행하며 소통과 책임감의 중요성을 배웠습니다.</p>
+        </div>
+        <div class="timeline">
+          <article class="experience-card reveal">
+            <div class="experience-side">
+              <div><div class="experience-number">EXPERIENCE 01</div><h3>스크린 골프존<br>인포 근무</h3></div>
+              <p>약 1년 · 매장 운영 및 회원 응대</p>
+            </div>
+            <div class="experience-body">
+              <h4>담당 업무</h4>
+              <p>예약 관리, 소모품 교체, 회원 관리 등 매장에서 발생하는 전반적인 업무를 담당하고 있습니다. 혼자 근무하며 방문 회원들에게 서비스를 제공하고, 다양한 문의와 불편 사항에 대응합니다.</p>
+              <h4>문제 해결 경험</h4>
+              <p>근무 초기에는 스크린 기기 조작법과 이용 규칙, 소모품 교체 주기 등에 익숙하지 않아 회원 문의나 갑작스러운 기기 오류에 대응하는 데 어려움이 있었습니다. 이를 해결하기 위해 기기 매뉴얼을 빠르게 숙지하고 자주 발생하는 오류와 소모품 교체 방법을 꾸준히 익혔습니다.</p>
+              <div class="lesson"><h4>배운 점</h4><p>회원들과 원활하게 소통하는 방법을 익혔으며, 예상치 못한 문제가 발생했을 때 상황에 맞게 대처하는 능력을 기를 수 있었습니다.</p></div>
+            </div>
+          </article>
+          <article class="experience-card reveal">
+            <div class="experience-side">
+              <div><div class="experience-number">EXPERIENCE 02</div><h3>학과 동아리<br>‘벌크’ 홍보부장</h3></div>
+              <p>웨이트 트레이닝 동아리 · 홍보 및 운영 지원</p>
+            </div>
+            <div class="experience-body">
+              <h4>담당 업무</h4>
+              <p>정기 모임 현장을 사진으로 기록하고 활동일지를 작성했으며, 동아리 인스타그램 게시물을 통해 활동을 홍보했습니다. 회장을 돕고 정기 회의에 참여하는 등 동아리 운영도 지원했습니다.</p>
+              <h4>기억에 남는 활동</h4>
+              <p>‘리핏’ 동아리와 함께 북한산으로 등산을 갔던 경험이 가장 기억에 남습니다. 평소 헬스장에서 웨이트 트레이닝을 중심으로 활동하다가 자연 속에서 등산하며 기분 전환을 할 수 있었고, 부원들과 더욱 가까워지는 시간을 가졌습니다.</p>
+              <div class="lesson"><h4>배운 점</h4><p>홍보부장을 맡으면서 동아리에 대한 자부심과 애정이 커졌고, 맡은 역할에 대한 책임감도 깊어졌습니다. 이를 통해 단체 활동에서 자신의 역할을 꾸준히 수행하고 공동체에 기여하는 자세의 중요성을 배웠습니다.</p></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="credentials">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="section-kicker">04 / Credentials</div><h2>배움의 과정과<br>무대에서 얻은 자신감</h2></div>
+          <p class="section-intro">운동 관련 자격과 오랜 뮤지컬 경험을 통해 신체 움직임, 표현력, 책임감에 대한 기반을 쌓았습니다.</p>
+        </div>
+        <div class="credentials-grid">
+          <article class="credential-card reveal">
+            <h3>보유 자격증</h3>
+            <ul class="cert-list">
+              <li>LEI 건강관리사 1급</li>
+              <li>LEI 건강관리사 2급</li>
+              <li>I.F.S.H 재활스트레칭지도사 1급</li>
+              <li>I.F.S.H 국제건강관리지도사 1급</li>
+              <li>I.F.S.H 체형관리사 1급</li>
+              <li>대한스키협회 ALPINE SKI 3급</li>
+              <li>Peak LEVEL 1급</li>
+            </ul>
+          </article>
+          <article class="credential-card stage-card reveal">
+            <span class="stage-label">STAGE EXPERIENCE · 약 5년</span>
+            <h3>뮤지컬 정기 공연 3회</h3>
+            <p>초등학교 고학년부터 중학교까지 약 5년간 뮤지컬을 배우며 ‘미녀와 야수’, ‘캣츠’, ‘하이스쿨 뮤지컬’ 등 세 차례의 주요 정기 공연에 참여했습니다.</p>
+            <p>약속된 무대를 위해 자신의 역할을 완성도 있게 수행해야 한다는 책임감을 배웠고, 몸과 목소리로 메시지를 전달하는 경험을 통해 자신감을 키웠습니다.</p>
+            <p>이 경험은 신체 표현력과 세밀한 움직임 조절 능력을 기르는 밑거름이 되었습니다. 앞으로 요가와 재활·체형 관리 분야에서도 이러한 경험을 바탕으로 사람의 움직임을 세심하게 살피는 지도사로 성장하고 싶습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="career-section" id="career">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="section-kicker">05 / Strength &amp; Career</div><h2>제가 잘하는 방식으로<br>누군가에게 도움이 되기</h2></div>
+          <p class="section-intro">충분히 이해한 지식을 정확하고 쉽게 전달하며, 상대방이 실제로 도움을 받는 순간에 보람을 느낍니다.</p>
+        </div>
+        <div class="strength-grid">
+          <div class="strength-feature reveal">
+            <div class="big-number">MY STRENGTH</div>
+            <div><h3>빠른 습득력과<br>정교한 신체 조절</h3><p>뛰어난 운동 신경과 빠른 습득력, 올바른 자세와 동작을 정교하게 구현하는 능력이 저의 강점입니다.</p></div>
+          </div>
+          <div class="strength-detail reveal">
+            <h3>가르치는 일에 대한 가치관</h3>
+            <p>저는 충분히 이해하지 못한 내용을 섣불리 전달하기보다, 제가 정확하게 이해하고 자신 있게 설명할 수 있는 분야에서 다른 사람에게 도움을 주는 것을 중요하게 생각합니다.</p>
+            <p>스스로 충분히 숙지한 지식이어야 상대방의 질문에도 정확하고 쉽게 설명할 수 있다고 생각합니다. 제가 알고 있는 지식과 노하우를 전달해 상대방이 내용을 이해하고 실제로 도움을 받는 모습을 볼 때 가장 큰 보람을 느낍니다.</p>
+          </div>
+        </div>
+        <div class="career-list">
+          <div class="career-item reveal"><span class="career-rank">1순위</span><div><strong>요가 강사</strong><span>신체의 유연성과 움직임에 대한 이해를 바탕으로 정확한 자세와 동작을 지도하는 전문가</span></div></div>
+          <div class="career-item reveal"><span class="career-rank">2순위</span><div><strong>스포츠 재활 관련 직무</strong><span>운동과 신체 기능에 대한 이해를 바탕으로 전문성을 넓혀갈 수 있는 분야</span></div></div>
+          <div class="career-item reveal"><span class="career-rank">3순위</span><div><strong>스포츠 모델</strong><span>스포츠 분야에서 다양한 경험을 쌓기 위해 함께 고민하고 있는 진로</span></div></div>
+        </div>
+        <div class="focus-block reveal" style="margin-top:20px">
+          <div><div class="section-kicker" style="color:#bdd2c0">MY DIRECTION</div><h3>정확한 움직임을 이해하고,<br>섬세하게 전달하는 사람</h3></div>
+          <div>
+            <p>요가는 정확한 자세 정렬과 신체 조절 능력이 중요한 운동입니다. 부정확한 자세는 부상 위험을 높이고 특정 부위에 보상 작용을 유발해 운동 효과를 떨어뜨릴 수도 있습니다.</p>
+            <p>저는 신체 감각과 동작의 원리를 빠르게 파악하는 능력을 발전시켜, 회원들이 올바른 자세로 운동할 수 있도록 돕는 요가 강사로 성장하고 싶습니다. 나아가 신체 움직임에 대한 이해를 넓혀 재활 분야에서도 전문성을 갖추고 싶습니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="wrap">
+        <div class="contact-panel">
+          <div>
+            <div class="section-kicker">06 / Contact</div>
+            <h2>함께 배우고<br>성장할 기회를 기다립니다.</h2>
+            <p>궁금한 점이나 함께 나누고 싶은 이야기가 있다면 아래 연락 수단을 통해 연락해 주세요.</p>
+          </div>
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:luna2005630@gmail.com"><span><small>EMAIL</small><strong>luna2005630@gmail.com</strong></span><span class="arrow" aria-hidden="true">↗</span></a>
+            <a class="contact-link" href="https://www.instagram.com/longdo_k_/" target="_blank" rel="noopener noreferrer"><span><small>INSTAGRAM</small><strong>@longdo_k_</strong></span><span class="arrow" aria-hidden="true">↗</span></a>
+            <a class="contact-link" href="tel:01023134243"><span><small>PHONE</small><strong>010-2313-4243</strong></span><span class="arrow" aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© <span id="year"></span> Do kyoung · SPORTS &amp; TECHNOLOGY</span>
+      <a class="back-top" href="#home">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.textContent = open ? '닫기 ×' : '메뉴 ☰';
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.textContent = '메뉴 ☰';
+      });
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealItems.forEach(item => observer.observe(item));
+    } else {
+      revealItems.forEach(item => item.classList.add('visible'));
+    }
+
+    // 첫 화면 프로필은 IMG_2944.jpg, 자기소개 페이지 이미지는 IMG_9649.jpg를 사용합니다.
+  </script>
+</body>
+</html>
